@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Socket-io</title>
+  <link rel="stylesheet" href="https://unpkg.com/semantic-ui@2.3.2/dist/semantic.min.css">
+</head>
+<body>
+  <div class="ui hidden divider"></div>
+
+  <div class="ui grid centered container">
+    <div class="eight wide column">
+      <form action="" class="ui form">
+        <div class="ui fluid action input">
+          <input type="text" placeholder="说点什么吧!" name="message" id="message">
+          <button class="ui button" type="submit">发送</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io()
+    $('form').submit(function(e){
+      e.preventDefault()
+      socket.emit('message', $('#message').val())
+      $('#message').val('')
+    })
+    socket.on('message', function(message){
+      $('.eight.wide.column').append(`
+        <div class="ui message">
+          <p>${ message }</p>
+        </div>
+      `)
+    })
+  </script>
+</body>
+</html>
